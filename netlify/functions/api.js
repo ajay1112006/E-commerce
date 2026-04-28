@@ -45,8 +45,9 @@ const Order = mongoose.models.Order || mongoose.model('Order', OrderSchema);
 // Helper for in-memory fallback (Note: this is unreliable in serverless)
 let inMemoryOrders = [];
 
-// Endpoints
-app.post('/orders', async (req, res) => {
+const router = express.Router();
+
+router.post('/orders', async (req, res) => {
   await connectToDatabase();
   const { productName, price, quantity } = req.body;
   const newOrderData = { productName, price, quantity, orderDate: new Date(), status: 'PLACED' };
@@ -66,7 +67,7 @@ app.post('/orders', async (req, res) => {
   }
 });
 
-app.get('/orders', async (req, res) => {
+router.get('/orders', async (req, res) => {
   await connectToDatabase();
   try {
     if (mongoose.connection.readyState === 1) {
@@ -84,7 +85,7 @@ app.get('/orders', async (req, res) => {
   }
 });
 
-app.delete('/orders/:id', async (req, res) => {
+router.delete('/orders/:id', async (req, res) => {
   await connectToDatabase();
   const { id } = req.params;
   try {
@@ -100,5 +101,8 @@ app.delete('/orders/:id', async (req, res) => {
     res.status(500).json({ message: 'Failed to delete order', error: error.message });
   }
 });
+
+app.use('/api', router);
+app.use('/', router);
 
 module.exports.handler = serverless(app);
