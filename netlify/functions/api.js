@@ -46,7 +46,7 @@ const Order = mongoose.models.Order || mongoose.model('Order', OrderSchema);
 let inMemoryOrders = [];
 
 // Endpoints
-app.post('/api/orders', async (req, res) => {
+app.post('/orders', async (req, res) => {
   await connectToDatabase();
   const { productName, price, quantity } = req.body;
   const newOrderData = { productName, price, quantity, orderDate: new Date(), status: 'PLACED' };
@@ -66,7 +66,7 @@ app.post('/api/orders', async (req, res) => {
   }
 });
 
-app.get('/api/orders', async (req, res) => {
+app.get('/orders', async (req, res) => {
   await connectToDatabase();
   try {
     if (mongoose.connection.readyState === 1) {
@@ -84,7 +84,7 @@ app.get('/api/orders', async (req, res) => {
   }
 });
 
-app.delete('/api/orders/:id', async (req, res) => {
+app.delete('/orders/:id', async (req, res) => {
   await connectToDatabase();
   const { id } = req.params;
   try {
