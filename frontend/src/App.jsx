@@ -146,8 +146,7 @@ function App() {
 
   const fetchOrders = async () => {
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080'
-      const response = await fetch(`${apiUrl}/api/orders`)
+      const response = await fetch('/api/orders')
       if (response.ok) {
         const data = await response.json()
         setOrders(data.reverse())
@@ -160,8 +159,7 @@ function App() {
   const placeOrder = async (product) => {
     setLoading(true)
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080'
-      const response = await fetch(`${apiUrl}/api/orders`, {
+      const response = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -189,8 +187,7 @@ function App() {
 
   const deleteOrder = async (orderId) => {
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080'
-      const response = await fetch(`${apiUrl}/api/orders/${orderId}`, {
+      const response = await fetch(`/api/orders/${orderId}`, {
         method: 'DELETE'
       })
 
